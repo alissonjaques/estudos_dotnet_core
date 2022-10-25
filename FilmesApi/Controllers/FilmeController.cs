@@ -1,10 +1,12 @@
-﻿using FilmesApi.Data;
+﻿using AutoMapper;
+using FilmesApi.Data;
 using FilmesApi.Data.Dtos;
 using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,23 +18,18 @@ namespace FilmesApi.Controllers
     {
 
         private FilmeContext _filmeContext;
+        private IMapper _mapper;
 
-        public FilmeController(FilmeContext _filmeContext)
+        public FilmeController(FilmeContext _filmeContext, IMapper _mapper)
         {
             this._filmeContext = _filmeContext;
+            this._mapper = _mapper;
         }
 
         [HttpPost]
         public IActionResult AdicionaFilme([FromBody] CreateFilmeDto filmeDto)
         {
-            Filme filme = new Filme
-            {
-                Titulo = filmeDto.Titulo,
-                Diretor = filmeDto.Diretor,
-                Genero = filmeDto.Genero,
-                Duracao = filmeDto.Duracao
-            };
-
+            Filme filme = this._mapper.Map<Filme>(filmeDto);
             this._filmeContext.Filmes.Add(filme);
             this._filmeContext.SaveChanges();
             return CreatedAtAction(nameof(RecuperaFilmesPorId), new { Id = filme.Id }, filme);
@@ -49,15 +46,8 @@ namespace FilmesApi.Controllers
         {
             Filme filme = this._filmeContext.Filmes.FirstOrDefault(filme => filme.Id == id);
             if (filme != null) {
-                ReadFilmeDto filmeDto = new ReadFilmeDto
-                {
-                    Id = filme.Id,
-                    Titulo = filme.Titulo,
-                    Diretor = filme.Diretor,
-                    Genero = filme.Genero,
-                    Duracao = filme.Duracao,
-                    HoraDaConsulta = DateTime.Now
-                };
+                ReadFilmeDto filmeDto = this._mapper.Map<ReadFilmeDto>(filme);
+                filmeDto.HoraDaConsulta = DateTime.Now;
                 return Ok(filmeDto);
             }
             return NotFound();
@@ -71,10 +61,7 @@ namespace FilmesApi.Controllers
             {
                 return NotFound();
             }
-            filme.Titulo = filmeDto.Titulo;
-            filme.Duracao = filmeDto.Duracao;
-            filme.Diretor = filmeDto.Diretor;
-            filme.Genero = filmeDto.Genero;
+            this._mapper.Map(filmeDto, filme);
             this._filmeContext.SaveChanges();
             
             return NoContent();

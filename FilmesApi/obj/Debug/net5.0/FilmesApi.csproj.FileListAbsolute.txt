@@ -53,3 +53,5 @@ C:\Users\alisson jaques\Documents\Estudos\DotNet Core\FilmesApi\bin\Debug\net5.0
 C:\Users\alisson jaques\Documents\Estudos\DotNet Core\FilmesApi\bin\Debug\net5.0\Ubiety.Dns.Core.dll
 C:\Users\alisson jaques\Documents\Estudos\DotNet Core\FilmesApi\bin\Debug\net5.0\MySql.EntityFrameworkCore.dll
 C:\Users\alisson jaques\Documents\Estudos\DotNet Core\FilmesApi\bin\Debug\net5.0\ZstdNet.dll
+C:\Users\alisson jaques\Documents\Estudos\DotNet Core\FilmesApi\bin\Debug\net5.0\AutoMapper.dll
+C:\Users\alisson jaques\Documents\Estudos\DotNet Core\FilmesApi\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
